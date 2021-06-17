@@ -1,1 +1,58 @@
-{}
+---
+master-password:
+  type: string
+  name: Master Password
+  description: The password for any account that does not specify its own password
+  nullable: false
+  default:
+    charset: "a-z,A-Z,0-9"
+    len: 22
+accounts:
+  type: list
+  subtype: object
+  name: Accounts
+  description: List of LND instances to manage
+  range: "[1,*)"
+  spec:
+    uniqueBy: server-url
+    displayAs: "{{name}}"
+    spec:
+      name:
+        type: string
+        name: Account Name
+        description: Name of this account in the login list
+        nullable: false
+        default: Master
+      connection-info:
+        type: union
+        tag:
+          id: type
+          name: Type
+          description: |
+            - Internal: The LND service installed to your Embassy
+            - External: An LND node running on a different device
+            - LNDConnect: An LNDConnect URL
+          variantNames:
+            internal: Internal
+            external: External Manual
+            lndconnect: External LNDConnect
+        default: internal
+        variants:
+          internal:
+            address:
+              type: pointer
+              name: Local IP
+              description: The LAN IP address of your LND service
+              subtype: app
+              app-id: lnd
+              target: lan-address
+          external:
+            address: _
+            port: _
+            macaroon: _
+            certificate: _
+          lndconnect:
+            lndconnect-url: _
+      password:
+        type: string
+        name: Password

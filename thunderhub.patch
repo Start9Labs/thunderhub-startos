@@ -1,0 +1,35 @@
+--- thunderhub/arm32v7.Dockerfile	2021-06-15 12:35:10.802870058 -0600
++++ Dockerfile2	2021-06-16 13:16:28.822501002 -0600
+@@ -14,7 +14,7 @@
+ 
+ 
+ # Install app dependencies
+-COPY package.json package-lock.json ./
++COPY ./thunderhub/package.json ./thunderhub/package-lock.json ./
+ RUN npm install
+ 
+ # ---------------
+@@ -30,7 +30,7 @@
+ ENV NEXT_TELEMETRY_DISABLED=1
+ 
+ # Build the NextJS application
+-COPY . .
++COPY ./thunderhub .
+ RUN npm run build
+ 
+ # Remove non production necessary modules
+@@ -53,8 +53,10 @@
+ COPY --from=build /app/node_modules/ ./node_modules 
+ COPY --from=build /app/.next/ ./.next
+ 
+-COPY ./scripts/initCookie.sh ./scripts/initCookie.sh
++COPY ./thunderhub/scripts/initCookie.sh ./scripts/initCookie.sh
+ 
+ EXPOSE 3000 
+ 
+-CMD [ "npm", "start" ]
+\ No newline at end of file
++COPY ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
++
++ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
+\ No newline at end of file

@@ -1,0 +1,3 @@
+[submodule "thunderhub"]
+	path = thunderhub
+	url = https://github.com/apotdevin/thunderhub.git
