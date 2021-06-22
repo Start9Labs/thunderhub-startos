@@ -14,7 +14,7 @@ accounts:
   description: List of LND instances to manage
   range: "[1,*)"
   spec:
-    uniqueBy: server-url
+    uniqueBy: connection-settings
     displayAs: "{{name}}"
     spec:
       name:
@@ -23,8 +23,18 @@ accounts:
         description: Name of this account in the login list
         nullable: false
         default: Master
-      connection-info:
+      connection-settings:
+        # uniqueBy:
+        #   any:
+        #     - type
+        #     - address
+        #     - addressext
+        #     - port
+        #     - macaroon
+        #     - certificate
+        #     - lndconnect-url
         type: union
+        name: Connection Settings
         tag:
           id: type
           name: Type
@@ -47,12 +57,46 @@ accounts:
               app-id: lnd
               target: lan-address
           external:
-            address: _
-            port: _
-            macaroon: _
-            certificate: _
+            addressext:
+              type: string
+              name: Public Address
+              description: The public address of your LND node
+              nullable: false
+            port:
+              type: number
+              name: Port
+              description: The gRPC port of your LND node
+              nullable: false
+              default: 10009
+            macaroon:
+              type: string
+              name: Admin Macaroon
+              description: Hex encoded admin macaroon from your LND node
+              nullable: false
+              pattern: ^[a-fA-F0-9]+$
+              patternDescription: Must be a valid hexadecimal string
+            certificate:
+              type: string
+              name: TLS Certificate
+              description: Hex encoded tls certificate from your LND node
+              nullable: false
+              pattern: ^[a-fA-F0-9]+$
+              patternDescription: Must be a valid hexadecimal string
           lndconnect:
-            lndconnect-url: _
+            lndconnect-url:
+              type: string
+              name: LNDConnect URL
+              description: LNDConnect URL for your external LND node
+              nullable: false
+              pattern: ^lndconnect:\/\/(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]):[1-9][0-9]{0,4}[?]cert=[a-zA-Z0-9\-_]+&macaroon=[a-zA-Z0-9\-_]+$
+              patternDescription: Must be a valid LNDConnect URL
       password:
         type: string
         name: Password
+        description: Account specific password to use in place of the master password
+        nullable: true
+  default:
+    - name: Embassy LND
+      connection-settings:
+        type: internal
+        address: null

@@ -1,14 +1,14 @@
 # ---------------
 # Install Dependencies
 # ---------------
-FROM arm32v7/node:14.15-alpine as deps
+FROM arm32v6/node:16-alpine3.13 as deps
 
 WORKDIR /app
 
 # Install dependencies neccesary for node-gyp on node alpine
 RUN apk add --update --no-cache \
     libc6-compat \
-    python \
+    python3 \
     make \
     g++
 
@@ -39,7 +39,10 @@ RUN npm prune --production
 # ---------------
 # Release App
 # ---------------
-FROM arm32v7/node:14.15-alpine
+FROM arm32v6/node:16-alpine3.13
+
+RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
+RUN apk add --update --no-cache yq bash
 
 WORKDIR /app
 

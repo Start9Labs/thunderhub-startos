@@ -1,6 +1,8 @@
 ASSETS := $(shell yq e '.assets.[].src' manifest.yaml)
 ASSET_PATHS := $(addprefix assets/,$(ASSETS))
-HELLO_WORLD_SRC := $(shell find ./thunderhub)
+THUNDERHUB_SRC := $(shell find ./thunderhub)
+DOCKER_CUR_ENGINE := $(shell docker buildx ls | grep "*" | awk '{print $$1;}')
+
 
 .DELETE_ON_ERROR:
 
@@ -16,9 +18,13 @@ thunderhub.s9pk: manifest.yaml config_spec.yaml config_rules.yaml image.tar inst
 instructions.md: README.md
 	cp README.md instructions.md
 
-Dockerfile:
+Dockerfile: $(THUNDERHUB_SRC)
 	cp thunderhub/arm32v7.Dockerfile Dockerfile
 	patch -u Dockerfile -i thunderhub.patch
 
 image.tar: Dockerfile docker_entrypoint.sh
-	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/thunderhub --platform=linux/arm/v7 -o type=docker,dest=image.tar .
+	docker buildx use default
+	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/thunderhub --platform=linux/arm/v6 .
+	docker buildx use $(DOCKER_CUR_ENGINE)
+	docker save start9/thunderhub > image.tar
+
