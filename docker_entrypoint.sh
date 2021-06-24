@@ -22,7 +22,7 @@ do
 		echo "  $NAME Password: \"$PASS\"" >> /root/start9.yaml
 	fi
 	echo '    type: string' >> /root/start9/stats.yaml
-	echo "    description: \"Password to use with the account \"$NAME\"" >> /root/start9/stats.yaml
+	echo "    description: Password to use with the account \"$NAME\"" >> /root/start9/stats.yaml
 	echo '    copyable: true' >> /root/start9/stats.yaml
 	echo '    qr: false' >> /root/start9/stats.yaml
 	echo '    masked: true' >> /root/start9/stats.yaml
