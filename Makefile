@@ -23,8 +23,8 @@ Dockerfile: $(THUNDERHUB_SRC)
 	patch -u Dockerfile -i thunderhub.patch
 
 image.tar: Dockerfile docker_entrypoint.sh
-	docker buildx use default
-	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/thunderhub --platform=linux/arm/v6 .
-	docker buildx use $(DOCKER_CUR_ENGINE)
-	docker save start9/thunderhub > image.tar
+	#docker buildx use default
+	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --no-cache --tag start9/thunderhub --platform=linux/arm/v7 -o type=docker,dest=image.tar .
+	#docker buildx use $(DOCKER_CUR_ENGINE)
+	#docker save start9/thunderhub > image.tar
 

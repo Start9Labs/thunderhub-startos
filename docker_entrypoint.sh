@@ -41,5 +41,5 @@ do
 done
 cat /root/accounts.yaml
 echo "DONE"
-export ACCOUNT_CONFIG_PATH=/root/accounts.yaml
-exec sleep 1000000
+echo ACCOUNT_CONFIG_PATH=/root/accounts.yaml > .env.local
+exec npm start

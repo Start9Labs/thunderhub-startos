@@ -23,7 +23,7 @@ os-version-recommended: "^0.2.13"
 
 # Port mappings from tor ports to the container port
 ports:
-  - internal: 4000
+  - internal: 3000
     tor: 80
     # if lan is standard, it will proxy HTTP traffic from 443 to the internal port
     lan: standard

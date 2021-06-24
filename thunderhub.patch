@@ -1,11 +1,11 @@
 --- thunderhub/arm32v7.Dockerfile	2021-06-15 12:35:10.802870058 -0600
-+++ Dockerfile2	2021-06-22 16:11:05.411623719 -0600
-@@ -1,20 +1,20 @@
++++ Dockerfile.temp	2021-06-23 18:33:17.989376856 -0600
+@@ -1,22 +1,27 @@
  # ---------------
  # Install Dependencies
  # ---------------
 -FROM arm32v7/node:14.15-alpine as deps
-+FROM arm32v6/node:16-alpine3.13 as deps
++FROM node:10-alpine as deps
  
  WORKDIR /app
  
@@ -23,8 +23,15 @@
 +COPY ./thunderhub/package.json ./thunderhub/package-lock.json ./
  RUN npm install
  
++FROM golang:1.14.15-alpine3.11 as yqbuild
++
++ENV GO111MODULE=on
++RUN go get github.com/mikefarah/yq/v4
++
  # ---------------
-@@ -30,7 +30,7 @@
+ # Build App
+ # ---------------
+@@ -30,7 +35,7 @@
  ENV NEXT_TELEMETRY_DISABLED=1
  
  # Build the NextJS application
@@ -33,21 +40,23 @@
  RUN npm run build
  
  # Remove non production necessary modules
-@@ -39,7 +39,10 @@
+@@ -39,7 +44,10 @@
  # ---------------
  # Release App
  # ---------------
 -FROM arm32v7/node:14.15-alpine
-+FROM arm32v6/node:16-alpine3.13
++FROM node:10-alpine
 +
 +RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
 +RUN apk add --update --no-cache yq bash
  
  WORKDIR /app
  
-@@ -53,8 +56,10 @@
+@@ -52,9 +60,12 @@
+ COPY --from=build /app/public ./public
  COPY --from=build /app/node_modules/ ./node_modules 
  COPY --from=build /app/.next/ ./.next
++COPY --from=yqbuild /go/bin/yq /usr/bin/yq
  
 -COPY ./scripts/initCookie.sh ./scripts/initCookie.sh
 +COPY ./thunderhub/scripts/initCookie.sh ./scripts/initCookie.sh
