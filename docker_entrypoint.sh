@@ -19,7 +19,8 @@ do
 		echo "  $NAME Password:"
 		echo "    value: \"$ACCOUNT_PASS\"" >> /root/start9/stats.yaml
 	else
-		echo "  $NAME Password: \"$PASS\"" >> /root/start9.yaml
+		echo "  $NAME Password:" >> /root/start9/stats.yaml
+		echo "    value: \"$ACCOUNT_PASS\"" >> /root/start9/stats.yaml
 	fi
 	echo '    type: string' >> /root/start9/stats.yaml
 	echo "    description: Password to use with the account \"$NAME\"" >> /root/start9/stats.yaml
