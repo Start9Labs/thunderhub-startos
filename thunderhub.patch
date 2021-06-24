@@ -1,11 +1,11 @@
---- thunderhub/arm32v7.Dockerfile	2021-06-15 12:35:10.802870058 -0600
-+++ Dockerfile.temp	2021-06-23 18:33:17.989376856 -0600
+--- thunderhub/arm32v7.Dockerfile	2021-06-22 23:50:12.955684258 +0100
++++ Dockerfile.temp	2021-06-24 18:38:31.013961907 +0100
 @@ -1,22 +1,27 @@
  # ---------------
  # Install Dependencies
  # ---------------
 -FROM arm32v7/node:14.15-alpine as deps
-+FROM node:10-alpine as deps
++FROM arm32v7/node:16-alpine3.11 as deps
  
  WORKDIR /app
  
@@ -23,7 +23,7 @@
 +COPY ./thunderhub/package.json ./thunderhub/package-lock.json ./
  RUN npm install
  
-+FROM golang:1.14.15-alpine3.11 as yqbuild
++FROM arm32v7/golang:1.14.15-alpine3.11 as yqbuild
 +
 +ENV GO111MODULE=on
 +RUN go get github.com/mikefarah/yq/v4
@@ -45,7 +45,7 @@
  # Release App
  # ---------------
 -FROM arm32v7/node:14.15-alpine
-+FROM node:10-alpine
++FROM arm32v7/node:16-alpine3.11
 +
 +RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
 +RUN apk add --update --no-cache yq bash
@@ -68,4 +68,3 @@
 +COPY ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 +
 +ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
-\ No newline at end of file
