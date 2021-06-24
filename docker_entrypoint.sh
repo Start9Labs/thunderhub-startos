@@ -21,11 +21,11 @@ do
 	else
 		echo "  $NAME Password: \"$PASS\"" >> /root/start9.yaml
 	fi
-	echo '    type: string'
-	echo "    description: \"Password to use with the account \"$NAME\""
-	echo '    copyable: true'
-	echo '    qr: false'
-	echo '    masked: true'
+	echo '    type: string' >> /root/start9/stats.yaml
+	echo "    description: \"Password to use with the account \"$NAME\"" >> /root/start9/stats.yaml
+	echo '    copyable: true' >> /root/start9/stats.yaml
+	echo '    qr: false' >> /root/start9/stats.yaml
+	echo '    masked: true' >> /root/start9/stats.yaml
 	if [[ $TYPE -eq "internal" ]]
 	then
 		URL="$(yq e ".accounts[$i].connection-settings.address" /root/start9/config.yaml)":10009
