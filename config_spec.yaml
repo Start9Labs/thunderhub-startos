@@ -75,14 +75,14 @@ accounts:
               name: Admin Macaroon
               description: Hex encoded admin macaroon from your LND node
               nullable: false
-              pattern: ^[a-zA-Z0-9/+]+$
+              pattern: ^[a-zA-Z0-9\/+]+$
               patternDescription: Must be a valid hexadecimal string
             certificate:
               type: string
               name: TLS Certificate
               description: Hex encoded tls certificate from your LND node
               nullable: false
-              pattern: ^[a-zA-Z0-9/+]+$
+              pattern: ^[a-zA-Z0-9\/+]+$
               patternDescription: Must be a valid hexadecimal string
           lndconnect:
             lndconnect-url:
