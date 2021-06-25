@@ -67,6 +67,8 @@ accounts:
               name: Port
               description: The gRPC port of your LND node
               nullable: false
+              range: "[0,65535]"
+              integral: true
               default: 10009
             macaroon:
               type: string
