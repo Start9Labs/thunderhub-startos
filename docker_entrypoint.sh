@@ -33,13 +33,31 @@ do
 		yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificatePath\":\"/root/start9/public/lnd/tls.cert\", \"macaroonPath\":\"/root/start9/public/lnd/admin.macaroon\" }" /root/accounts.yaml
 	elif [[ $TYPE -eq "external" ]]
 	then
-		echo "Account $i is external"
+		URL=$(yq e ".accounts[$i].connection-settings.addressext" /root/start9/config.yaml):$(yq e ".accounts[$i].connection-settings.port" /root/start9/config.yaml)
+		CERT=$(yq e ".accounts[$i].connection-settings.certificate" /root/start9/config.yaml)
+		MACAROON=$(yq e ".accounts[$i].connection-settings.macaroon" /root/start9/config.yaml)
+		yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificate\":\"$CERT\", \"macaroon\":\"$MACAROON\" }" /root/accounts.yaml
 	elif [[ $TYPE -eq "lndconnect" ]]
 	then
-		echo "Account $i is lndconnect"
+		LNDCONNECT=$(yq e ".accounts[$i].connection-settings.lndconnect-url" /root/start9/config.yaml)
+		URL=$(echo $LNDCONNECT | cut -c 14- | cut -d '?' -f 1)
+		PARAMS=$(echo $LNDCONNECT | cut -d '?' -f 2)
+		if [[ $(echo $PARAMS | cut -c 1-4) -eq "cert" ]]
+		then
+			CERT=$(echo $PARAMS | cut -d '&' -f 1 | cut -c 6-)
+			MACAROON=$(echo $PARAMS | cut -d '&' -f 2 | cut -c 10-)
+			yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificate\":\"$CERT\", \"macaroon\":\"$MACAROON\" }" /root/accounts.yaml
+		elif [[ $(echo $PARAMS | cut -c 1-8) -eq "macaroon" ]]
+		then
+			CERT=$(echo $PARAMS | cut -d '&' -f 1 | cut -c 6-)
+			MACAROON=$(echo $PARAMS | cut -d '&' -f 2 | cut -c 10-)
+			yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificate\":\"$CERT\", \"macaroon\":\"$MACAROON\" }" /root/accounts.yaml
+		else
+			echo "INVALID LNDCONNECT URL: Certificate or Macaroon is incorrectly formatted"
+			exit
+		fi
 	fi
 done
 cat /root/accounts.yaml
-echo "DONE"
 echo ACCOUNT_CONFIG_PATH=/root/accounts.yaml > .env.local
 exec npm start
