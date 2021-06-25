@@ -13,7 +13,7 @@ do
 	TYPE=$(yq e ".accounts[$i].connection-settings.type" /root/start9/config.yaml)
 	NAME=$(yq e ".accounts[$i].name" /root/start9/config.yaml)
 	ACCOUNT_PASS=$(yq e ".accounts[$i].password" /root/start9/config.yaml)
-	if [[ $ACCOUNT_PASS -ne "null" ]]
+	if [[ $ACCOUNT_PASS -ne "null" ]] && [[ $ACCOUNT_PASS -ne "~" ]]
 	then
 		yq -i e ".accounts[$i].password = $ACCOUNT_PASS" /root/accounts.yaml
 		echo "  $NAME Password:"
