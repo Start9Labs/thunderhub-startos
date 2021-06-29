@@ -47,7 +47,7 @@ RUN npm prune --production
 FROM arm32v7/node:16-alpine3.11
 
 RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
-RUN apk add --update --no-cache yq bash
+RUN apk add --update --no-cache yq bash coreutils
 
 WORKDIR /app
 

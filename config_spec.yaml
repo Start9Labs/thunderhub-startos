@@ -24,15 +24,6 @@ accounts:
         nullable: false
         default: Master
       connection-settings:
-        # uniqueBy:
-        #   any:
-        #     - type
-        #     - address
-        #     - addressext
-        #     - port
-        #     - macaroon
-        #     - certificate
-        #     - lndconnect-url
         type: union
         name: Connection Settings
         tag:
@@ -73,17 +64,17 @@ accounts:
             macaroon:
               type: string
               name: Admin Macaroon
-              description: Hex encoded admin macaroon from your LND node
+              description: Hex or Base64 encoded admin macaroon from your LND node
               nullable: false
-              pattern: ^[a-zA-Z0-9\/+]+$
-              patternDescription: Must be a valid hexadecimal string
+              pattern: ^([a-zA-Z0-9\/+]+={0,2}|[a-f0-9]+)$
+              patternDescription: Must be a valid base64 or lowercase hexadecimal string
             certificate:
               type: string
               name: TLS Certificate
-              description: Hex encoded tls certificate from your LND node
+              description: Hex or Base64 encoded tls certificate from your LND node
               nullable: false
-              pattern: ^[a-zA-Z0-9\/+]+$
-              patternDescription: Must be a valid hexadecimal string
+              pattern: ^([a-zA-Z0-9\/+]+={0,2}|[a-f0-9]+)$
+              patternDescription: Must be a valid base64 or lowercase hexadecimal string
           lndconnect:
             lndconnect-url:
               type: string
