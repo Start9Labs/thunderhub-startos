@@ -64,17 +64,17 @@ accounts:
             macaroon:
               type: string
               name: Admin Macaroon
-              description: Hex or Base64 encoded admin macaroon from your LND node
+              description: Base64 encoded admin macaroon from your LND node
               nullable: false
-              pattern: ^([a-zA-Z0-9\/+]+={0,2}|[a-f0-9]+)$
-              patternDescription: Must be a valid base64 or lowercase hexadecimal string
+              pattern: ^[a-zA-Z0-9\/+]+[=]{0,2}$
+              patternDescription: Must be a valid base64 string
             certificate:
               type: string
               name: TLS Certificate
-              description: Hex or Base64 encoded tls certificate from your LND node
+              description: Base64 encoded tls certificate from your LND node
               nullable: false
-              pattern: ^([a-zA-Z0-9\/+]+={0,2}|[a-f0-9]+)$
-              patternDescription: Must be a valid base64 or lowercase hexadecimal string
+              pattern: ^[a-zA-Z0-9\/+]+[=]{0,2}$
+              patternDescription: Must be a valid base64 string
           lndconnect:
             lndconnect-url:
               type: string
