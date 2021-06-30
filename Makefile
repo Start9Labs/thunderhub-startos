@@ -14,9 +14,6 @@ thunderhub.s9pk: manifest.yaml config_spec.yaml config_rules.yaml image.tar inst
 	appmgr -vv pack $(shell pwd) -o thunderhub.s9pk
 	appmgr -vv verify thunderhub.s9pk
 
-instructions.md: README.md
-	cp README.md instructions.md
-
 Dockerfile: $(THUNDERHUB_SRC)
 	cp thunderhub/arm32v7.Dockerfile Dockerfile
 	patch -u Dockerfile -i thunderhub.patch

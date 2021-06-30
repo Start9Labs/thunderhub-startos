@@ -7,6 +7,7 @@ master-password:
   default:
     charset: "a-z,A-Z,0-9"
     len: 22
+  masked: true
 accounts:
   type: list
   subtype: object
@@ -86,7 +87,7 @@ accounts:
       password:
         type: string
         name: Password
-        description: Account specific password to use in place of the master password
+        description: Account specific password to use in place of the master password, if left blank you must log into this account using the master password
         nullable: true
   default:
     - name: Embassy LND
