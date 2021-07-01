@@ -23,7 +23,8 @@ accounts:
         name: Account Name
         description: Name of this account in the login list
         nullable: false
-        default: New Account
+        changeWarning: |
+          Do not use the name "Master" here or the properties menu will confuse you.
       connection-settings:
         type: union
         name: Connection Settings
@@ -67,14 +68,14 @@ accounts:
               name: Admin Macaroon
               description: Base64 encoded admin macaroon from your LND node
               nullable: false
-              pattern: ^[a-zA-Z0-9\/+]+[=]{0,2}$
+              pattern: "^[a-zA-Z0-9/+]+[=]{0,2}$"
               patternDescription: Must be a valid base64 string
             certificate:
               type: string
               name: TLS Certificate
               description: Base64 encoded tls certificate from your LND node
               nullable: false
-              pattern: ^[a-zA-Z0-9\/+]+[=]{0,2}$
+              pattern: "^[a-zA-Z0-9/+]+[=]{0,2}$"
               patternDescription: Must be a valid base64 string
           lndconnect:
             lndconnect-url:
@@ -82,7 +83,7 @@ accounts:
               name: LNDConnect URL
               description: LNDConnect URL for your external LND node
               nullable: false
-              pattern: ^lndconnect:\/\/(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]):[1-9][0-9]{0,4}[?](cert=[a-zA-Z0-9\-_]+&macaroon=[a-zA-Z0-9\-_]+|macaroon=[a-zA-Z0-9\-_]+&cert=[a-zA-Z0-9\-_]+)$
+              pattern: "^lndconnect://(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9]):[1-9][0-9]{0,4}[?](cert=[a-zA-Z0-9\\-_]+&macaroon=[a-zA-Z0-9\\-_]+|macaroon=[a-zA-Z0-9\\-_]+&cert=[a-zA-Z0-9\\-_]+)$"
               patternDescription: Must be a valid LNDConnect URL
       password:
         type: string
