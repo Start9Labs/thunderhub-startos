@@ -9,7 +9,8 @@ description:
     It allows you to take control of the lightning network with a simple and intuitive UX and the most up-to-date tech
     stack.
 release-notes: |
-  - chore: add lnurl channel support
+  - chore: bump deps
+  - chore: dash and settings
 
 # Denotes whether this service has an instructions page. If this is true, it will pack in `instructions.md` in the same
 # directory as this manifest.yaml

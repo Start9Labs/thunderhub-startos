@@ -12,19 +12,6 @@ do
 	TYPE=$(yq e ".accounts[$i].connection-settings.type" /root/start9/config.yaml)
 	NAME=$(yq e ".accounts[$i].name" /root/start9/config.yaml)
 	ACCOUNT_PASS=$(yq e ".accounts[$i].password" /root/start9/config.yaml)
-	if [[ "$ACCOUNT_PASS" != "null" ]] && [[ "$ACCOUNT_PASS" != "~" ]]
-	then
-		echo "  $NAME Password:" >> /root/start9/stats.yaml
-		echo "    value: \"$ACCOUNT_PASS\"" >> /root/start9/stats.yaml
-	else
-		echo "  $NAME Password:" >> /root/start9/stats.yaml
-		echo "    value: \"$PASS\"" >> /root/start9/stats.yaml
-	fi
-	echo '    type: string' >> /root/start9/stats.yaml
-	echo "    description: Password to use with the account \"$NAME\"" >> /root/start9/stats.yaml
-	echo '    copyable: true' >> /root/start9/stats.yaml
-	echo '    qr: false' >> /root/start9/stats.yaml
-	echo '    masked: true' >> /root/start9/stats.yaml
 	if [[ "$TYPE" == "internal" ]]
 	then
 		URL="$(yq e ".accounts[$i].connection-settings.address" /root/start9/config.yaml)":10009
@@ -60,6 +47,22 @@ do
 		MACAROON=$MACAROON_RAW$MACAROON_PAD
 		yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificate\":\"$CERT\", \"macaroon\":\"$MACAROON\" }" /root/accounts.yaml
 	fi
+	echo ACCOUNT PASS
+	echo $ACCOUNT_PASS
+	if [[ "$ACCOUNT_PASS" != "null" ]] && [[ "$ACCOUNT_PASS" != "~" ]]
+	then
+		echo "  $NAME Password:" >> /root/start9/stats.yaml
+		echo "    value: \"$ACCOUNT_PASS\"" >> /root/start9/stats.yaml
+		yq -i e ".accounts[$i].password = \"$ACCOUNT_PASS\"" /root/accounts.yaml
+	else
+		echo "  $NAME Password:" >> /root/start9/stats.yaml
+		echo "    value: \"$PASS\"" >> /root/start9/stats.yaml
+	fi
+	echo '    type: string' >> /root/start9/stats.yaml
+	echo "    description: Password to use with the account \"$NAME\"" >> /root/start9/stats.yaml
+	echo '    copyable: true' >> /root/start9/stats.yaml
+	echo '    qr: false' >> /root/start9/stats.yaml
+	echo '    masked: true' >> /root/start9/stats.yaml
 done
 echo ACCOUNT_CONFIG_PATH=/root/accounts.yaml > .env.local
 echo TOR_PROXY_SERVER="socks://$HOST_IP:9050" >> .env.local

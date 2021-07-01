@@ -23,7 +23,7 @@ accounts:
         name: Account Name
         description: Name of this account in the login list
         nullable: false
-        default: Master
+        default: New Account
       connection-settings:
         type: union
         name: Connection Settings
@@ -89,6 +89,8 @@ accounts:
         name: Password
         description: Account specific password to use in place of the master password, if left blank you must log into this account using the master password
         nullable: true
+        default: null
+        masked: true
   default:
     - name: Embassy LND
       connection-settings:
