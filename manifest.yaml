@@ -9,8 +9,11 @@ description:
     It allows you to take control of the lightning network with a simple and intuitive UX and the most up-to-date tech
     stack.
 release-notes: |
-  - chore: bump deps
-  - chore: dash and settings
+  - chore: bump dependencies [@apotdevin](https://github.com/apotdevin) ([#293](https://github.com/apotdevin/thunderhub/pull/293))
+  - chore: cleanup uneccesary dependencies [@apotdevin](https://github.com/apotdevin)
+  - chore: cleanup charts [@apotdevin](https://github.com/apotdevin)
+  - style: fix some grids [@apotdevin](https://github.com/apotdevin)
+  - style: fixed spacing between heart and lightning emoji. [@softspork](https://github.com/softspork) ([#292](https://github.com/apotdevin/thunderhub/pull/292))
 
 # Denotes whether this service has an instructions page. If this is true, it will pack in `instructions.md` in the same
 # directory as this manifest.yaml
