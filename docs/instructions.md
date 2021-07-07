@@ -14,6 +14,6 @@ can take an external LND node either via manual configuration or an [LNDConnect]
 
 ## Notes
 
-All of your funds and data reside within LND, Thunderhub is *just* and interface to interact with your LND node.
+All of your funds and data reside within LND, Thunderhub is *just* an interface to interact with your LND node.
 As such it is safe to uninstall and reinstall Thunderhub as you please without fear of loss. Additionally, to ensure
 safety of your funds you must back up your LND node, not Thunderhub.
