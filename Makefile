@@ -11,11 +11,11 @@ install: thunderhub.s9pk
 	appmgr install thunderhub.s9pk
 
 thunderhub.s9pk: manifest.yaml config_spec.yaml config_rules.yaml image.tar instructions.md
-	appmgr -vv pack $(shell pwd) -o thunderhub.s9pk
-	appmgr -vv verify thunderhub.s9pk
+	sudo $(shell which embassy-sdk) pack
+	sudo $(shell which embassy-sdk) verify thunderhub.s9pk
 
 Dockerfile: $(THUNDERHUB_SRC)
-	cp thunderhub/arm32v7.Dockerfile Dockerfile
+	cp thunderhub/arm64v8.Dockerfile Dockerfile
 	patch -u Dockerfile -i thunderhub.patch
 
 image.tar: Dockerfile docker_entrypoint.sh

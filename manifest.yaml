@@ -1,65 +1,82 @@
 compat: v0
 id: thunderhub
-version: 0.12.20.1
+version: 0.12.20.2
 title: Thunderhub
+release-notes: Upgrade to EmbassyOS v0.3.0
+license: MIT
+wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
+upstream-repo: https://github.com/apotdevin/thunderhub
+build: ["make"]
+min-os-version: 0.3.0
 description:
   short: "LND Lightning Node Manager in your Browser"
   long: |
     ThunderHub is an open-source LND node manager where you can manage and monitor your node on any device or browser.
     It allows you to take control of the lightning network with a simple and intuitive UX and the most up-to-date tech
     stack.
-release-notes: |
-  - chore: bump deps
-  - chore: dash and settings
-
-# Denotes whether this service has an instructions page. If this is true, it will pack in `instructions.md` in the same
-# directory as this manifest.yaml
-has-instructions: true
-
-# Denotes the version required and recommended
-# Required means that the package will not install if unsatisfied
-# Recommended means that the package will not be listed by the registry to instances of EmbassyOS that do not satisfy it
-os-version-required: "^0.2.13"
-os-version-recommended: "^0.2.13"
-
-# Port mappings from tor ports to the container port
-ports:
-  - internal: 3000
-    tor: 80
-    # if lan is standard, it will proxy HTTP traffic from 443 to the internal port
-    lan: standard
-
-# Do not change this
-image:
-  type: tar
-
-# specifies where on the service's file system its persistence directory should be mounted prior to service startup
-mount: /root
-
-# Directory you would like to expose to dependent services, specified relative to the root of the persistence directory.
-# This will be a read-only filesystem for the dependent service
-public: public
-
-# Directory you would like to expose to dependent services, specified relative to the root of the persistence directory.
-# This will be a read-write filesystem for the dependent service
-shared: shared
-
-# Hidden Service version you would like to use for your services .onion url. Allowed options are "v2" and "v3"
-hidden-service-version: v3
-
-# This is a key value map specifying dependency services that you need to be able to function
-# The keys are the service id's on which you depend.
-# NOTE: if you are developing a standalone service, you may delete this entire stanza
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: instructions.md
+  docker-images: image.tar
+  icon-type: png
+main:
+  type: docker
+  image: main
+  entrypoint: "/usr/local/bin/docker_entrypoint.sh"
+  args: []
+  mounts: {}
+  io-format: yaml
+health-checks: {}
+config:
+  get:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: config
+    args: 
+      - "get"
+      - "/root"
+    mounts: {}
+    io-format: yaml
+  set:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: config
+    args:
+      - "set"
+      - "/root"
+    mounts: {}
+    io-format: yaml
+volumes: {}
+interfaces:
+  main:
+    tor-config:
+      port-mapping:
+        3000: "80"
+    ui: true
+    protocols:
+      - http
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: "true"
+    args: []
+    mounts: {}
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: "true"
+    args: []
+    mounts: {} 
 dependencies:
   lnd:
-    # The version range that is acceptable for this dependency
     version: ">=0.12.1 <0.14.0"
-    # Description of the dependency relationship
     decription: Thunderhub is an LND Manager
-    # If set to true it will mount the public directory of the dependency to $mount/start9/public/$dependencyId
     mount-public: true
-    # If set to true it will mount the shared directory of the dependency to $mount/start9/shared/$dependencyId
     mount-shared: true
-    # This is a list of rules that levies requirements on the configuration of the dependency and suggests ways to
-    # remedy any incompatibilities. Documentation of this feature is outside the scope of this example config.
-    config: []
+    critical: false
