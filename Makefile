@@ -5,14 +5,16 @@ THUNDERHUB_SRC := $(shell find ./thunderhub)
 
 .DELETE_ON_ERROR:
 
-all: thunderhub.s9pk
+all: verify
+
+verify: thunderhub.s9pk
+	embassy-sdk verify thunderhub.s9pk
 
 install: thunderhub.s9pk
-	appmgr install thunderhub.s9pk
+	embassy-cli package install thunderhub.s9pk
 
-thunderhub.s9pk: manifest.yaml config_spec.yaml config_rules.yaml image.tar instructions.md
-	sudo $(shell which embassy-sdk) pack
-	sudo $(shell which embassy-sdk) verify thunderhub.s9pk
+thunderhub.s9pk: manifest.yaml assets/compat/config_spec.yaml assets/compat/config_rules.yaml image.tar instructions.md
+	embassy-sdk pack
 
 Dockerfile: $(THUNDERHUB_SRC)
 	cp thunderhub/arm64v8.Dockerfile Dockerfile

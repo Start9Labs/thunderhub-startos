@@ -32,51 +32,79 @@ config:
   get:
     type: docker
     image: compat
-    system: true
-    entrypoint: config
+    entrypoint: compat
     args: 
+      - "config"
       - "get"
-      - "/root"
-    mounts: {}
+      - "/root/start9/config.yaml"
+      - "/mnt/assets/config_spec.yaml"
+    mounts:
+      compat: "/mnt/assets"
+      main: "/root"
     io-format: yaml
   set:
     type: docker
     image: compat
-    system: true
-    entrypoint: config
+    entrypoint: compat
     args:
+      - "config"
       - "set"
-      - "/root"
-    mounts: {}
+      - "/root/start9/config.yaml"
+    mounts:
+      main: "/root"
     io-format: yaml
-volumes: {}
+volumes:
+  main:
+    type: data
+  compat:
+    type: assets
 interfaces:
   main:
+    name: Main Interface
+    description: The main Thunderhub browser interface
     tor-config:
       port-mapping:
         3000: "80"
+    lan-config:
+      3000:
+        ssl: true
+        mapping: 443
     ui: true
     protocols:
+      - tcp
       - http
 backup:
   create:
     type: docker
     image: compat
     system: true
-    entrypoint: "true"
-    args: []
-    mounts: {}
+    entrypoint: compat
+    args:
+      - duplicity
+      - thunderhub
+      - file:///mnt/backup
+      - /root
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root/
   restore:
     type: docker
     image: compat
     system: true
-    entrypoint: "true"
-    args: []
-    mounts: {} 
+    entrypoint: compat
+    args:
+      - thunderhub
+      - /root
+      - file:///mnt/backup
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root
+      compat: /mnt/assets
 dependencies:
   lnd:
     version: ">=0.12.1 <0.14.0"
     decription: Thunderhub is an LND Manager
     mount-public: true
     mount-shared: true
+    recommended: true
     critical: false
