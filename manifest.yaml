@@ -1,11 +1,12 @@
-compat: v0
 id: thunderhub
-version: 0.12.20.2
 title: Thunderhub
+version: 0.12.20.2
 release-notes: Upgrade to EmbassyOS v0.3.0
-license: MIT
+license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
 upstream-repo: https://github.com/apotdevin/thunderhub
+support-site: https://github.com/apotdevin/thunderhub/issues
+marketing-site: https://www.thunderhub.io/
 build: ["make"]
 min-os-version: 0.3.0
 description:
@@ -19,40 +20,55 @@ assets:
   icon: icon.png
   instructions: instructions.md
   docker-images: image.tar
-  icon-type: png
 main:
   type: docker
   image: main
-  entrypoint: "/usr/local/bin/docker_entrypoint.sh"
+  entrypoint: docker_entrypoint.sh
   args: []
-  mounts: {}
+  mounts:
+    main: /root/
+    compat: /mnt/assets
   io-format: yaml
 health-checks: {}
 config:
   get:
     type: docker
     image: compat
+    system: true
     entrypoint: compat
     args: 
-      - "config"
-      - "get"
-      - "/root/start9/config.yaml"
-      - "/mnt/assets/config_spec.yaml"
+      - config
+      - get
+      - /root/start9/config.yaml
+      - /mnt/assets/config_spec.yaml
     mounts:
-      compat: "/mnt/assets"
-      main: "/root"
+      compat: /mnt/assets
+      main: /root
     io-format: yaml
   set:
     type: docker
     image: compat
+    system: true
     entrypoint: compat
     args:
-      - "config"
-      - "set"
-      - "/root/start9/config.yaml"
+      - config
+      - set
+      - /root
+      - /mnt/assets/config_rules.yaml
     mounts:
-      main: "/root"
+      main: /root
     io-format: yaml
+properties:
+  type: docker
+  image: compat
+  system: true
+  entrypoint: compat
+  args:
+    - properties
+    - /root
+  mounts:
+    main: /root
+  io-format: yaml
 volumes:
   main:
     type: data
@@ -60,7 +76,7 @@ volumes:
     type: assets
 interfaces:
   main:
-    name: Main Interface
+    name: Browser Interface
     description: The main Thunderhub browser interface
     tor-config:
       port-mapping:
@@ -73,33 +89,6 @@ interfaces:
     protocols:
       - tcp
       - http
-backup:
-  create:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - duplicity
-      - thunderhub
-      - file:///mnt/backup
-      - /root
-    mounts:
-      BACKUP: /mnt/backup
-      main: /root/
-  restore:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - thunderhub
-      - /root
-      - file:///mnt/backup
-    mounts:
-      BACKUP: /mnt/backup
-      main: /root
-      compat: /mnt/assets
 dependencies:
   lnd:
     version: ">=0.12.1 <0.14.0"
@@ -108,3 +97,32 @@ dependencies:
     mount-shared: true
     recommended: true
     critical: false
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - create
+      - thunderhub
+      - /mnt/backup
+      - /root
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: /mnt/assets/backup-restore.sh
+    args:
+      - restore
+      - thunderhub
+      - /root
+      - /mnt/backup
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root
+      compat: /mnt/assets

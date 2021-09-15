@@ -35,7 +35,7 @@ accounts:
             - Internal: The LND service installed to your Embassy
             - External: An LND node running on a different device
             - LNDConnect: An LNDConnect URL
-          variantNames:
+          variant-names:
             internal: Internal
             external: External Manual
             lndconnect: External LNDConnect

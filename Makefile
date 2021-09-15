@@ -1,7 +1,5 @@
-ASSETS := $(shell yq e '.assets.[].src' manifest.yaml)
-ASSET_PATHS := $(addprefix assets/,$(ASSETS))
 THUNDERHUB_SRC := $(shell find ./thunderhub)
-
+VERSION := $(shell yq e ".version" manifest.yaml)
 
 .DELETE_ON_ERROR:
 
@@ -21,6 +19,6 @@ Dockerfile: $(THUNDERHUB_SRC)
 	patch -u Dockerfile -i thunderhub.patch
 
 image.tar: Dockerfile docker_entrypoint.sh
-	docker build --tag start9/thunderhub .
+	docker build --tag start9/thunderhub/main:$(VERSION) .
 	docker save -o image.tar start9/thunderhub:latest
 
