@@ -28,6 +28,7 @@ main:
   mounts:
     main: /root/
     compat: /mnt/assets
+    lnd: /mnt/lnd
   io-format: yaml
 health-checks: {}
 config:
@@ -93,10 +94,9 @@ dependencies:
   lnd:
     version: ">=0.12.1 <0.14.0"
     decription: Thunderhub is an LND Manager
-    mount-public: true
-    mount-shared: true
-    recommended: true
     critical: false
+    requirement:
+      type: required
 backup:
   create:
     type: docker
