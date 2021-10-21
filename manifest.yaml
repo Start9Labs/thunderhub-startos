@@ -30,7 +30,17 @@ main:
     compat: /mnt/assets
     lnd: /mnt/lnd
   io-format: yaml
-health-checks: {}
+health-checks:
+  main:
+    type: docker
+    image: main
+    system: false
+    entrypoint: curl
+    args: ["thunderhub.embassy"]
+    mounts:
+      main: /root
+    io-format: yaml
+    critical: false
 config:
   get:
     type: docker
