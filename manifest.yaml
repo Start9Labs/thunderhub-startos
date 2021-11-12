@@ -26,21 +26,18 @@ main:
   entrypoint: docker_entrypoint.sh
   args: []
   mounts:
-    main: /root/
-    compat: /mnt/assets
+    main: /root
     lnd: /mnt/lnd
   io-format: yaml
 health-checks:
   main:
     type: docker
     image: main
-    system: false
-    entrypoint: curl
-    args: ["thunderhub.embassy"]
-    mounts:
-      main: /root
+    entrypoint: sh
+    args: ["-c", "curl thunderhub.embassy:80 || exit 1"]
     io-format: yaml
     critical: false
+    inject: true
 config:
   get:
     type: docker
@@ -50,11 +47,11 @@ config:
     args: 
       - config
       - get
-      - /root/start9/config.yaml
+      - /root
       - /mnt/assets/config_spec.yaml
     mounts:
-      compat: /mnt/assets
       main: /root
+      compat: /mnt/assets
     io-format: yaml
   set:
     type: docker
@@ -64,10 +61,12 @@ config:
     args:
       - config
       - set
+      - thunderhub
       - /root
       - /mnt/assets/config_rules.yaml
     mounts:
       main: /root
+      compat: /mnt/assets
     io-format: yaml
 properties:
   type: docker
@@ -85,6 +84,12 @@ volumes:
     type: data
   compat:
     type: assets
+  lnd:
+    type: pointer
+    package-id: lnd
+    volume-id: main
+    path: /public
+    readonly: true
 interfaces:
   main:
     name: Browser Interface
@@ -103,10 +108,11 @@ interfaces:
 dependencies:
   lnd:
     version: ">=0.12.1 <0.14.0"
-    decription: Thunderhub is an LND Manager
+    description: Thunderhub is an LND Manager
     critical: false
     requirement:
       type: required
+    config: ~
 backup:
   create:
     type: docker
@@ -116,23 +122,23 @@ backup:
     args:
       - duplicity
       - create
-      - thunderhub
       - /mnt/backup
-      - /root
+      - /root/data
     mounts:
       BACKUP: /mnt/backup
-      main: /root
+      main: /root/data
+    io-format: yaml
   restore:
     type: docker
     image: compat
     system: true
-    entrypoint: /mnt/assets/backup-restore.sh
+    entrypoint: compat
     args:
+      - duplicity
       - restore
-      - thunderhub
-      - /root
       - /mnt/backup
+      - /root/data
     mounts:
       BACKUP: /mnt/backup
-      main: /root
-      compat: /mnt/assets
+      main: /root/data
+    io-format: yaml

@@ -20,5 +20,5 @@ Dockerfile: $(THUNDERHUB_SRC)
 
 image.tar: Dockerfile docker_entrypoint.sh
 	docker build --tag start9/thunderhub/main:$(VERSION) .
-	docker save -o image.tar start9/thunderhub:latest
+	docker save -o image.tar start9/thunderhub/main:$(VERSION)
 

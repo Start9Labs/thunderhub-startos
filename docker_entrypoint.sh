@@ -14,8 +14,8 @@ do
 	ACCOUNT_PASS=$(yq e ".accounts[$i].password" /root/start9/config.yaml)
 	if [[ "$TYPE" == "internal" ]]
 	then
-		URL="$(yq e ".accounts[$i].connection-settings.address" /root/start9/config.yaml)":10009
-		yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificatePath\":\"/root/start9/public/lnd/tls.cert\", \"macaroonPath\":\"/root/start9/public/lnd/admin.macaroon\" }" /root/accounts.yaml
+		URL=lnd.embassy:10009
+		yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificatePath\":\"/mnt/lnd/tls.cert\", \"macaroonPath\":\"/mnt/lnd/admin.macaroon\" }" /root/accounts.yaml
 	elif [[ "$TYPE" == "external" ]]
 	then
 		URL=$(yq e ".accounts[$i].connection-settings.addressext" /root/start9/config.yaml):$(yq e ".accounts[$i].connection-settings.port" /root/start9/config.yaml)

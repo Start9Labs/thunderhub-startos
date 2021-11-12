@@ -41,14 +41,7 @@ accounts:
             lndconnect: External LNDConnect
         default: internal
         variants:
-          internal:
-            address:
-              type: pointer
-              name: Local IP
-              description: The LAN IP address of your LND service
-              subtype: app
-              app-id: lnd
-              target: lan-address
+          internal: {}
           external:
             addressext:
               type: string
