@@ -31,12 +31,14 @@ main:
   io-format: yaml
 health-checks:
   main:
+    name: Main
+    description: Activates once your Thunderhub Web UI is ready to visit
     type: docker
     image: main
     entrypoint: sh
     args: ["-c", "curl thunderhub.embassy:80 || exit 1"]
     io-format: yaml
-    critical: false
+    severity: warning
     inject: true
 config:
   get:

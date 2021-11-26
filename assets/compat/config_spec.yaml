@@ -23,7 +23,7 @@ accounts:
         name: Account Name
         description: Name of this account in the login list
         nullable: false
-        change-warning: |
+        warning: |
           Do not use the name "Master" here or the properties menu will confuse you.
       connection-settings:
         type: union
