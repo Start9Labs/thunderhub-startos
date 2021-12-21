@@ -36,7 +36,7 @@ health-checks:
     type: docker
     image: main
     entrypoint: sh
-    args: ["-c", "curl thunderhub.embassy:80 || exit 1"]
+    args: ["-c", "curl thunderhub.embassy:3000 || exit 1"]
     io-format: yaml
     inject: true
 config:
