@@ -45,7 +45,7 @@ config:
     image: compat
     system: true
     entrypoint: compat
-    args: 
+    args:
       - config
       - get
       - /root
@@ -99,9 +99,9 @@ interfaces:
       port-mapping:
         80: "3000"
     lan-config:
-      3000:
+      443:
         ssl: true
-        mapping: 443
+        internal: 3000
     ui: true
     protocols:
       - tcp
