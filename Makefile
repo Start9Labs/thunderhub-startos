@@ -6,7 +6,7 @@ VERSION := $(shell yq e ".version" manifest.yaml)
 all: verify
 
 verify: thunderhub.s9pk
-	embassy-sdk verify thunderhub.s9pk
+	embassy-sdk verify s9pk thunderhub.s9pk
 
 install: thunderhub.s9pk
 	embassy-cli package install thunderhub.s9pk
