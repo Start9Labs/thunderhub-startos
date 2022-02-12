@@ -15,15 +15,15 @@ accounts:
   description: List of LND instances to manage
   range: "[1,*)"
   spec:
-    uniqueBy: connection-settings
-    displayAs: "{{name}}"
+    unique-by: connection-settings
+    display-as: "{{name}}"
     spec:
       name:
         type: string
         name: Account Name
         description: Name of this account in the login list
         nullable: false
-        changeWarning: |
+        warning: |
           Do not use the name "Master" here or the properties menu will confuse you.
       connection-settings:
         type: union
@@ -35,20 +35,13 @@ accounts:
             - Internal: The LND service installed to your Embassy
             - External: An LND node running on a different device
             - LNDConnect: An LNDConnect URL
-          variantNames:
+          variant-names:
             internal: Internal
             external: External Manual
             lndconnect: External LNDConnect
         default: internal
         variants:
-          internal:
-            address:
-              type: pointer
-              name: Local IP
-              description: The LAN IP address of your LND service
-              subtype: app
-              app-id: lnd
-              target: lan-address
+          internal: {}
           external:
             addressext:
               type: string
@@ -69,14 +62,14 @@ accounts:
               description: Base64 encoded admin macaroon from your LND node
               nullable: false
               pattern: "^[a-zA-Z0-9/+]+[=]{0,2}$"
-              patternDescription: Must be a valid base64 string
+              pattern-description: Must be a valid base64 string
             certificate:
               type: string
               name: TLS Certificate
               description: Base64 encoded tls certificate from your LND node
               nullable: false
               pattern: "^[a-zA-Z0-9/+]+[=]{0,2}$"
-              patternDescription: Must be a valid base64 string
+              pattern-description: Must be a valid base64 string
           lndconnect:
             lndconnect-url:
               type: string
@@ -84,7 +77,7 @@ accounts:
               description: LNDConnect URL for your external LND node
               nullable: false
               pattern: "^lndconnect://(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9]):[1-9][0-9]{0,4}[?](cert=[a-zA-Z0-9\\-_]+&macaroon=[a-zA-Z0-9\\-_]+|macaroon=[a-zA-Z0-9\\-_]+&cert=[a-zA-Z0-9\\-_]+)$"
-              patternDescription: Must be a valid LNDConnect URL
+              pattern-description: Must be a valid LNDConnect URL
       password:
         type: string
         name: Password

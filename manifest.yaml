@@ -1,65 +1,145 @@
-compat: v0
 id: thunderhub
-version: 0.12.20.1
 title: Thunderhub
+version: 0.12.20.2
+release-notes: Upgrade to EmbassyOS v0.3.0
+license: mit
+wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
+upstream-repo: https://github.com/apotdevin/thunderhub
+support-site: https://github.com/apotdevin/thunderhub/issues
+marketing-site: https://www.thunderhub.io/
+build: ["make"]
+min-os-version: 0.3.0
 description:
   short: "LND Lightning Node Manager in your Browser"
   long: |
     ThunderHub is an open-source LND node manager where you can manage and monitor your node on any device or browser.
     It allows you to take control of the lightning network with a simple and intuitive UX and the most up-to-date tech
     stack.
-release-notes: |
-  - chore: bump deps
-  - chore: dash and settings
-
-# Denotes whether this service has an instructions page. If this is true, it will pack in `instructions.md` in the same
-# directory as this manifest.yaml
-has-instructions: true
-
-# Denotes the version required and recommended
-# Required means that the package will not install if unsatisfied
-# Recommended means that the package will not be listed by the registry to instances of EmbassyOS that do not satisfy it
-os-version-required: "^0.2.13"
-os-version-recommended: "^0.2.13"
-
-# Port mappings from tor ports to the container port
-ports:
-  - internal: 3000
-    tor: 80
-    # if lan is standard, it will proxy HTTP traffic from 443 to the internal port
-    lan: standard
-
-# Do not change this
-image:
-  type: tar
-
-# specifies where on the service's file system its persistence directory should be mounted prior to service startup
-mount: /root
-
-# Directory you would like to expose to dependent services, specified relative to the root of the persistence directory.
-# This will be a read-only filesystem for the dependent service
-public: public
-
-# Directory you would like to expose to dependent services, specified relative to the root of the persistence directory.
-# This will be a read-write filesystem for the dependent service
-shared: shared
-
-# Hidden Service version you would like to use for your services .onion url. Allowed options are "v2" and "v3"
-hidden-service-version: v3
-
-# This is a key value map specifying dependency services that you need to be able to function
-# The keys are the service id's on which you depend.
-# NOTE: if you are developing a standalone service, you may delete this entire stanza
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: instructions.md
+  docker-images: image.tar
+main:
+  type: docker
+  image: main
+  entrypoint: docker_entrypoint.sh
+  args: []
+  mounts:
+    main: /root
+    lnd: /mnt/lnd
+  io-format: yaml
+health-checks:
+  main:
+    name: Main
+    description: Activates once your Thunderhub Web UI is ready to visit
+    type: docker
+    image: main
+    entrypoint: sh
+    args: ["-c", "curl thunderhub.embassy:3000 || exit 1"]
+    io-format: yaml
+    inject: true
+config:
+  get:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - get
+      - /root
+      - /mnt/assets/config_spec.yaml
+    mounts:
+      main: /root
+      compat: /mnt/assets
+    io-format: yaml
+  set:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - config
+      - set
+      - thunderhub
+      - /root
+      - /mnt/assets/config_rules.yaml
+    mounts:
+      main: /root
+      compat: /mnt/assets
+    io-format: yaml
+properties:
+  type: docker
+  image: compat
+  system: true
+  entrypoint: compat
+  args:
+    - properties
+    - /root
+  mounts:
+    main: /root
+  io-format: yaml
+volumes:
+  main:
+    type: data
+  compat:
+    type: assets
+  lnd:
+    type: pointer
+    package-id: lnd
+    volume-id: main
+    path: /public
+    readonly: true
+interfaces:
+  main:
+    name: Browser Interface
+    description: The main Thunderhub browser interface
+    tor-config:
+      port-mapping:
+        80: "3000"
+    lan-config:
+      443:
+        ssl: true
+        internal: 3000
+    ui: true
+    protocols:
+      - tcp
+      - http
 dependencies:
   lnd:
-    # The version range that is acceptable for this dependency
     version: ">=0.12.1 <0.14.0"
-    # Description of the dependency relationship
-    decription: Thunderhub is an LND Manager
-    # If set to true it will mount the public directory of the dependency to $mount/start9/public/$dependencyId
-    mount-public: true
-    # If set to true it will mount the shared directory of the dependency to $mount/start9/shared/$dependencyId
-    mount-shared: true
-    # This is a list of rules that levies requirements on the configuration of the dependency and suggests ways to
-    # remedy any incompatibilities. Documentation of this feature is outside the scope of this example config.
-    config: []
+    description: Thunderhub is an LND Manager
+    critical: false
+    requirement:
+      type: required
+    config: ~
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - create
+      - /mnt/backup
+      - /root/data
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root/data
+    io-format: yaml
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - restore
+      - /mnt/backup
+      - /root/data
+    mounts:
+      BACKUP: /mnt/backup
+      main: /root/data
+    io-format: yaml

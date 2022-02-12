@@ -1,7 +1,7 @@
 # ---------------
 # Install Dependencies
 # ---------------
-FROM arm32v7/node:16-alpine3.11 as deps
+FROM arm64v8/node:16-alpine3.11 as deps
 
 WORKDIR /app
 
@@ -17,7 +17,7 @@ RUN apk add --update --no-cache \
 COPY ./thunderhub/package.json ./thunderhub/package-lock.json ./
 RUN npm install
 
-FROM arm32v7/golang:1.14.15-alpine3.11 as yqbuild
+FROM arm64v8/golang:1.14.15-alpine3.11 as yqbuild
 
 ENV GO111MODULE=on
 RUN go get github.com/mikefarah/yq/v4
@@ -44,10 +44,10 @@ RUN npm prune --production
 # ---------------
 # Release App
 # ---------------
-FROM arm32v7/node:16-alpine3.11
+FROM arm64v8/node:16-alpine3.11
 
 RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
-RUN apk add --update --no-cache yq bash coreutils
+RUN apk add --update --no-cache yq bash coreutils curl
 
 WORKDIR /app
 
