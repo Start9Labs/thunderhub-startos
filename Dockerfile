@@ -67,5 +67,8 @@ COPY ./thunderhub/scripts/initCookie.sh ./scripts/initCookie.sh
 EXPOSE 3000 
 
 COPY ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+RUN chmod +x /usr/local/bin/docker_entrypoint.sh
+ADD ./check-web.sh /usr/local/bin/check-web.sh
+RUN chmod +x /usr/local/bin/check-web.sh
 
 ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
