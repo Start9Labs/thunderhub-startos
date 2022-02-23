@@ -17,10 +17,10 @@ RUN apk add --update --no-cache \
 COPY ./thunderhub/package.json ./thunderhub/package-lock.json ./
 RUN npm install
 
-FROM arm64v8/golang:1.14.15-alpine3.11 as yqbuild
+FROM arm64v8/golang:1.17.7-alpine3.15 as yqbuild
 
 ENV GO111MODULE=on
-RUN go get github.com/mikefarah/yq/v4
+RUN go install github.com/mikefarah/yq/v4@v4.20.2
 
 # ---------------
 # Build App
