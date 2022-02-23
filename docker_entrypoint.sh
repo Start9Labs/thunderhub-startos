@@ -16,6 +16,15 @@ do
 	then
 		URL=lnd.embassy:10009
 		yq -i e ".accounts[$i] = {\"name\":\"$NAME\", \"serverUrl\":\"$URL\", \"certificatePath\":\"/mnt/lnd/tls.cert\", \"macaroonPath\":\"/mnt/lnd/admin.macaroon\" }" /root/accounts.yaml
+		if ! test -d /mnt/lnd
+		then
+			exit 0
+		fi
+		while ! test -f /mnt/lnd/tls.cert
+		do
+			echo "Waiting for LND cert to be generated..."
+			sleep 1
+		done
 	elif [[ "$TYPE" == "external" ]]
 	then
 		URL=$(yq e ".accounts[$i].connection-settings.addressext" /root/start9/config.yaml):$(yq e ".accounts[$i].connection-settings.port" /root/start9/config.yaml)
