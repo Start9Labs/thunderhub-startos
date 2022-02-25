@@ -32,7 +32,7 @@ main:
 health-checks:
   main:
     name: Web UI
-    description: Activates once your Thunderhub Web UI is ready to visit
+    success-message: The Web UI is ready to visit in a web browser
     type: docker
     image: main
     entrypoint: check-web.sh
