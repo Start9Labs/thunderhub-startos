@@ -8,7 +8,6 @@ upstream-repo: https://github.com/apotdevin/thunderhub
 support-site: https://github.com/apotdevin/thunderhub/issues
 marketing-site: https://www.thunderhub.io/
 build: ["make"]
-min-os-version: 0.3.0
 description:
   short: "LND Lightning Node Manager in your Browser"
   long: |
@@ -32,7 +31,7 @@ main:
 health-checks:
   main:
     name: Web UI
-    success-message: The Web UI is ready to visit in a web browser
+    success-message: The Thunderhub UI is ready to visit in a web browser
     type: docker
     image: main
     entrypoint: check-web.sh
@@ -110,7 +109,6 @@ dependencies:
   lnd:
     version: ">=0.12.1 <0.14.0"
     description: Thunderhub is an LND Manager
-    critical: false
     requirement:
       type: required
     config: ~
