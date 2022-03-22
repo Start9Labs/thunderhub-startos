@@ -1,7 +1,8 @@
 id: thunderhub
 title: Thunderhub
-version: 0.12.20.2
-release-notes: Upgrade to EmbassyOS v0.3.0
+version: 0.13.7
+release-notes: |
+  Updates to release tag v0.13.7, details here: https://github.com/apotdevin/thunderhub/releases/tag/v0.13.7
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
 upstream-repo: https://github.com/apotdevin/thunderhub
@@ -107,7 +108,7 @@ interfaces:
       - http
 dependencies:
   lnd:
-    version: ">=0.12.1 <0.14.0"
+    version: "^1.14.2"
     description: Thunderhub is an LND Manager
     requirement:
       type: required

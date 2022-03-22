@@ -76,4 +76,5 @@ done
 echo ACCOUNT_CONFIG_PATH=/root/accounts.yaml > .env.local
 echo TOR_PROXY_SERVER="socks://$HOST_IP:9050" >> .env.local
 echo LOG_LEVEL='debug' >> .env.local
-exec npm start
+echo PORT=3000 >> .env.local
+exec npm run start:prod
