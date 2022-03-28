@@ -108,7 +108,7 @@ interfaces:
       - http
 dependencies:
   lnd:
-    version: ">=0.12.1 <1.15.0"
+    version: ">=0.12.1 <0.15.0"
     description: Thunderhub is an LND Manager
     requirement:
       type: required
