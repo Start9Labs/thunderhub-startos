@@ -19,6 +19,4 @@ Dockerfile: $(THUNDERHUB_SRC)
 	patch -u Dockerfile -i thunderhub.patch
 
 image.tar: Dockerfile docker_entrypoint.sh check-web.sh
-	docker build --tag start9/thunderhub/main:$(VERSION) .
-	docker save -o image.tar start9/thunderhub/main:$(VERSION)
-
+	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/thunderhub/main:${VERSION} --platform=linux/arm64/v8 -o type=docker,dest=image.tar .
