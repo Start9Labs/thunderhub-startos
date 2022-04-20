@@ -1,8 +1,8 @@
 id: thunderhub
 title: Thunderhub
-version: 0.13.7
+version: 0.13.10
 release-notes: |
-  Updates to release tag v0.13.7, details here: https://github.com/apotdevin/thunderhub/releases/tag/v0.13.7
+  Updates to release tag v0.13.10, details here: https://github.com/apotdevin/thunderhub/releases/tag/v0.13.10
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
 upstream-repo: https://github.com/apotdevin/thunderhub

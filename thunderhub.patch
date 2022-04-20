@@ -1,70 +1,65 @@
---- thunderhub/arm32v7.Dockerfile	2021-06-22 23:50:12.955684258 +0100
-+++ Dockerfile.temp	2021-06-30 21:07:23.445217487 +0100
-@@ -1,22 +1,27 @@
+--- thunderhub/arm64v8.Dockerfile	2022-04-20 12:52:38.319638554 -0600
++++ Dockerfile.temp	2022-04-20 14:43:20.258367632 -0600
+@@ -1,17 +1,25 @@
++FROM arm64v8/golang:1.18-alpine3.15 as yqbuild
++ENV GO111MODULE=on
++RUN apk add git
++RUN go install github.com/mikefarah/yq/v4@v4.24.5
++
  # ---------------
  # Install Dependencies
  # ---------------
--FROM arm64v8/node:14.15-alpine as deps
-+FROM arm64v8/node:16-alpine3.11 as deps
+-
+-# NOTE: The arm64 image does not use alpine because of an issue with NextJS where it does not find the .next build folder.
+-
+-FROM arm64v8/node:14 as deps
++FROM arm64v8/node:14.15-alpine as deps
  
  WORKDIR /app
  
- # Install dependencies neccesary for node-gyp on node alpine
- RUN apk add --update --no-cache \
-     libc6-compat \
--    python \
-+    python3 \
-     make \
-     g++
- 
+-RUN apt-get update && apt-get -y dist-upgrade
++# Install dependencies neccesary for node-gyp on node alpine
++RUN apk add --update --no-cache \
++    libc6-compat \
++    python \
++    make \
++    g++
++
  
  # Install app dependencies
 -COPY package.json package-lock.json ./
 +COPY ./thunderhub/package.json ./thunderhub/package-lock.json ./
- RUN npm install
+ RUN npm ci
  
-+FROM arm64v8/golang:1.14.15-alpine3.11 as yqbuild
-+
-+ENV GO111MODULE=on
-+RUN go get github.com/mikefarah/yq/v4
-+
  # ---------------
- # Build App
- # ---------------
-@@ -30,7 +35,7 @@
+@@ -29,9 +37,8 @@
  ENV NEXT_TELEMETRY_DISABLED=1
  
- # Build the NextJS application
+ # Build the NestJS and NextJS application
 -COPY . .
-+COPY ./thunderhub .
- RUN npm run build
+-RUN npm run build:nest
+-RUN npm run build:next
++COPY ./thunderhub/ ./
++RUN npm run build
  
  # Remove non production necessary modules
-@@ -39,7 +44,10 @@
+ RUN npm prune --production
+@@ -39,7 +46,8 @@
  # ---------------
  # Release App
  # ---------------
--FROM arm64v8/node:14.15-alpine
-+FROM arm64v8/node:16-alpine3.11
-+
-+RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
-+RUN apk add --update --no-cache yq bash coreutils
+-FROM arm64v8/node:14
++FROM arm64v8/node:14.15-alpine
++RUN apk add --update --no-cache bash coreutils
  
  WORKDIR /app
  
-@@ -52,9 +60,12 @@
- COPY --from=build /app/public ./public
- COPY --from=build /app/node_modules/ ./node_modules 
- COPY --from=build /app/.next/ ./.next
-+COPY --from=yqbuild /go/bin/yq /usr/bin/yq
+@@ -63,4 +71,6 @@
  
--COPY ./scripts/initCookie.sh ./scripts/initCookie.sh
-+COPY ./thunderhub/scripts/initCookie.sh ./scripts/initCookie.sh
+ EXPOSE 3000
  
- EXPOSE 3000 
- 
--CMD [ "npm", "start" ]
+-CMD [ "npm", "run", "start:prod" ]
 \ No newline at end of file
 +COPY ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-+
++COPY --from=yqbuild /go/bin/yq /usr/bin/yq
 +ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
