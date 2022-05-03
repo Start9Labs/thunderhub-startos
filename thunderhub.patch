@@ -1,5 +1,5 @@
 --- thunderhub/arm64v8.Dockerfile	2022-04-20 12:52:38.319638554 -0600
-+++ Dockerfile.temp	2022-05-03 16:26:57.434760833 -0600
++++ Dockerfile.temp	2022-05-03 16:55:17.145387682 -0600
 @@ -1,17 +1,25 @@
 +FROM arm64v8/golang:1.18-alpine3.15 as yqbuild
 +ENV GO111MODULE=on
@@ -50,7 +50,7 @@
  # ---------------
 -FROM arm64v8/node:14
 +FROM arm64v8/node:14.15-alpine
-+RUN apk add --update --no-cache bash coreutils
++RUN apk add --update --no-cache bash coreutils curl
  
  WORKDIR /app
  
