@@ -72,5 +72,6 @@ COPY --from=build /app/dist/ ./dist
 EXPOSE 3000
 
 COPY ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+COPY ./check-web.sh /usr/local/bin/check-web.sh
 COPY --from=yqbuild /go/bin/yq /usr/bin/yq
 ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
