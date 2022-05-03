@@ -1,5 +1,5 @@
 --- thunderhub/arm64v8.Dockerfile	2022-04-20 12:52:38.319638554 -0600
-+++ Dockerfile.temp	2022-05-03 15:58:11.324392202 -0600
++++ Dockerfile.temp	2022-05-03 16:26:57.434760833 -0600
 @@ -1,17 +1,25 @@
 +FROM arm64v8/golang:1.18-alpine3.15 as yqbuild
 +ENV GO111MODULE=on
@@ -54,7 +54,7 @@
  
  WORKDIR /app
  
-@@ -63,4 +71,7 @@
+@@ -63,4 +71,8 @@
  
  EXPOSE 3000
  
@@ -62,5 +62,6 @@
 \ No newline at end of file
 +COPY ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 +COPY ./check-web.sh /usr/local/bin/check-web.sh
++RUN chmod a+x /usr/local/bin/check-web.sh
 +COPY --from=yqbuild /go/bin/yq /usr/bin/yq
 +ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
