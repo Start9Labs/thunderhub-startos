@@ -1,8 +1,9 @@
 id: thunderhub
 title: Thunderhub
-version: 0.13.10
+version: 0.13.13
 release-notes: |
   Updates to release tag v0.13.10, details here: https://github.com/apotdevin/thunderhub/releases/tag/v0.13.10
+  Updates for eos v0.3.1, details here: https://github.com/Start9Labs/embassy-os/tree/chore/release-0.3.1
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
 upstream-repo: https://github.com/apotdevin/thunderhub
@@ -41,45 +42,11 @@ health-checks:
     inject: true
 config:
   get:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - config
-      - get
-      - /root
-      - /mnt/assets/config_spec.yaml
-    mounts:
-      main: /root
-      compat: /mnt/assets
-    io-format: yaml
+    type: script
   set:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - config
-      - set
-      - thunderhub
-      - /root
-      - /mnt/assets/config_rules.yaml
-    mounts:
-      main: /root
-      compat: /mnt/assets
-    io-format: yaml
+    type: script
 properties:
-  type: docker
-  image: compat
-  system: true
-  entrypoint: compat
-  args:
-    - properties
-    - /root
-  mounts:
-    main: /root
-  io-format: yaml
+  type: script
 volumes:
   main:
     type: data
