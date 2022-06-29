@@ -133,7 +133,7 @@ export const getConfig: ExpectedExports.getConfig = async (effects) => {
           },
         ],
       },
-    }
+    };
     return {
       result: {
         config,
