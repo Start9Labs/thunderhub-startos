@@ -28,12 +28,12 @@ type Check = {
 export const dependencies: T.ExpectedExports.dependencies = {
     lnd: {
         async check(effects, configInput) {
-            effects.info("check bitcoind");
+            effects.info("check lnd");
             const config = matchLndConfig.unsafeCast(configInput);
             return { result: null };
         },
         async autoConfigure(effects, configInput) {
-            effects.info("autoconfigure bitcoind");
+            effects.info("autoconfigure lnd");
             const config = matchLndConfig.unsafeCast(configInput);
             return { result: config };
         },
