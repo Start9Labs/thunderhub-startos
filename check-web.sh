@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DURATION=$(</dev/stdin)
-if (($DURATION <= 5000 )); then
+if (($DURATION <= 10000 )); then
     exit 60
 else
     curl --silent --fail thunderhub.embassy:3000 &>/dev/null
