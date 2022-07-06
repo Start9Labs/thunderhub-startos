@@ -2,7 +2,6 @@ id: thunderhub
 title: Thunderhub
 version: 0.13.13
 release-notes: |
-  * https://github.com/apotdevin/thunderhub/releases/tag/v0.13.10
   * Switch to using new EOS APIs for faster configuration and properties
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
