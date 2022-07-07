@@ -109,7 +109,7 @@ backup:
     io-format: yaml
 migrations:
   from:
-    ">=0.12.0 <0.13.10":
+    ">=0.12.0 <=0.13.13":
       type: docker
       image: main
       system: false
@@ -118,7 +118,7 @@ migrations:
       io-format: json
       inject: false
   to:
-    ">=0.12.0 <0.13.10":
+    ">=0.12.0 <=0.13.13":
       type: docker
       image: main
       system: false
