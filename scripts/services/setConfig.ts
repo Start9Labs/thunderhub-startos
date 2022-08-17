@@ -6,7 +6,5 @@ export const setConfig: T.ExpectedExports.setConfig = async (effects, input ) =>
 
   const depsLnd: T.DependsOn = {lnd: ['synced']}
 
-  return await compat.setConfig(effects,input, {
-    ...depsLnd,
-  })
+  return await compat.setConfig(effects,input, depsLnd)
 }
