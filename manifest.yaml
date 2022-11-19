@@ -1,9 +1,8 @@
 id: thunderhub
 title: Thunderhub
-version: 0.13.14
+version: 0.13.16
 release-notes: |
-  * Upstream update to Thunderhub v0.13.14
-  * Improved health check indicator and migration
+  * Upstream update to Thunderhub v0.13.16 and to run on x86_64 architecture
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
 upstream-repo: https://github.com/apotdevin/thunderhub
@@ -20,15 +19,14 @@ assets:
   license: LICENSE
   icon: icon.png
   instructions: instructions.md
-  docker-images: image.tar
+containers:
+  main:
+    image: main
+    mounts:
+      lnd: /mnt/lnd
+      main: /root
 main:
-  type: docker
-  image: main
-  entrypoint: docker_entrypoint.sh
-  args: []
-  mounts:
-    main: /root
-    lnd: /mnt/lnd
+  type: script
 health-checks:
   main:
     name: Web UI
@@ -38,7 +36,6 @@ health-checks:
     entrypoint: check-web.sh
     args: []
     io-format: json
-    inject: true
 config:
   get:
     type: script
@@ -49,8 +46,6 @@ properties:
 volumes:
   main:
     type: data
-  compat:
-    type: assets
   lnd:
     type: pointer
     package-id: lnd
