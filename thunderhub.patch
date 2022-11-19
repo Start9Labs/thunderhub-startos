@@ -1,7 +1,7 @@
 --- thunderhub/Dockerfile	2022-04-20 12:52:38.319638554 -0600
 +++ Dockerfile.temp	2022-05-03 16:55:17.145387682 -0600
 @@ -1,19 +1,23 @@
-+FROM amd64/golang:1.18-alpine3.15 as yqbuild
++FROM golang:1.18-alpine3.15 as yqbuild
 +ENV GO111MODULE=on
 +RUN apk add git
 +RUN go install github.com/mikefarah/yq/v4@v4.24.5
@@ -10,7 +10,7 @@
  # Install Dependencies
  # ---------------
 -FROM node:16.15.1-alpine as deps
-+FROM amd64/node:16.15.1-alpine as deps
++FROM node:16.15.1-alpine as deps
  
  WORKDIR /app
  
@@ -44,7 +44,7 @@
  # Release App
  # ---------------
 -FROM node:16.15.1-alpine as final
-+FROM amd64/node:16.15.1-alpine as final
++FROM node:16.15.1-alpine as final
 +RUN apk add --update --no-cache bash coreutils curl
  
  WORKDIR /app
