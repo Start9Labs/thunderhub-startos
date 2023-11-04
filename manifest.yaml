@@ -1,8 +1,8 @@
 id: thunderhub
 title: Thunderhub
-version: 0.13.18
+version: 0.13.23.1
 release-notes: |
-  * v0.13.18 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.18)
+  * v0.13.23 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.23)
   * Update LND dependency version
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
@@ -66,7 +66,7 @@ interfaces:
       - http
 dependencies:
   lnd:
-    version: ">=0.12.1 <0.17.0"
+    version: ">=0.16.0 <0.18.0"
     description: Thunderhub is an LND Manager
     requirement:
       type: required
