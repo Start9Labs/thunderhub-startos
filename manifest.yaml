@@ -1,6 +1,6 @@
 id: thunderhub
 title: Thunderhub
-version: 0.13.23.1
+version: 0.13.23
 release-notes: |
   * v0.13.23 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.23)
   * Update LND dependency version
