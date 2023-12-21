@@ -1,9 +1,9 @@
 id: thunderhub
 title: Thunderhub
-version: 0.13.23
+version: 0.13.29
 release-notes: |
-  * v0.13.23 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.23)
-  * Update LND dependency version
+  * v0.13.29 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.29)
+  * Add ghost address button
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
 upstream-repo: https://github.com/apotdevin/thunderhub
