@@ -1,9 +1,11 @@
 id: thunderhub
 title: Thunderhub
-version: 0.13.29
+version: 0.13.30
 release-notes: |
-  * v0.13.29 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.29)
-  * Add ghost address button
+  * v0.13.30 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.30)
+  * chore: extra error log @apotdevin (#601)
+  * fix: Boltz swap claim transaction fees @michael1011 (#600)
+  * fix: add safety on object lookups @atomantic (#599)
 license: mit
 wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
 upstream-repo: https://github.com/apotdevin/thunderhub
