@@ -8,10 +8,10 @@ TS_FILES := $(shell find ./ -name \*.ts)
 all: verify
 
 verify: $(PKG_ID).s9pk
-	embassy-sdk verify s9pk $(PKG_ID).s9pk
+	start-sdk verify s9pk $(PKG_ID).s9pk
 
-install: $(PKG_ID).s9pk
-	embassy-cli package install $(PKG_ID).s9pk
+install:
+	start-cli package install $(PKG_ID).s9pk
 
 clean:
 	rm -rf docker-images
@@ -19,17 +19,33 @@ clean:
 	rm -f $(PKG_ID).s9pk
 	rm -f scripts/*.js
 
+# for rebuilding just the arm image. will include docker-images/x86_64.tar into the s9pk if it exists
+arm:
+	@rm -f docker-images/x86_64.tar
+	ARCH=aarch64 $(MAKE)
+
+# for rebuilding just the x86 image. will include docker-images/aarch64.tar into the s9pk if it exists
+x86:
+	@rm -f docker-images/aarch64.tar
+	ARCH=x86_64 $(MAKE)
+
 scripts/embassy.js: $(TS_FILES)
 	deno bundle scripts/embassy.ts scripts/embassy.js
 
 docker-images/x86_64.tar: Dockerfile docker_entrypoint.sh 
+ifeq ($(ARCH),aarch64)
+else
 	mkdir -p docker-images
 	docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --platform=linux/amd64 --build-arg PLATFORM=amd64 -o type=docker,dest=docker-images/x86_64.tar .
+endif
 
 docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh
+ifeq ($(ARCH),x86_64)
+else
 	mkdir -p docker-images
 	docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --platform=linux/arm64 --build-arg PLATFORM=arm64 -o type=docker,dest=docker-images/aarch64.tar .
+endif
 
 $(PKG_ID).s9pk: manifest.yaml instructions.md LICENSE icon.png scripts/embassy.js docker-images/aarch64.tar docker-images/x86_64.tar 
-	embassy-sdk pack
+	start-sdk pack
 	
