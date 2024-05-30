@@ -12,8 +12,8 @@ release-notes: |
   * chore: update package lock @apotdevin
   * chore: remove swap backup @apotdevin
   * fix: bump dep, don't work with Node.js ^21.0.0 fix #580 @doitwithnotepad (#612)
-license: mit
-wrapper-repo: https://github.com/Start9Labs/thunderhub-wrapper
+license: MIT
+wrapper-repo: https://github.com/Start9Labs/thunderhub-startos
 upstream-repo: https://github.com/apotdevin/thunderhub
 support-site: https://github.com/apotdevin/thunderhub/issues
 marketing-site: https://www.thunderhub.io/
@@ -36,6 +36,10 @@ main:
   mounts:
     main: /root
     lnd: /mnt/lnd
+hardware-requirements:
+  arch:
+    - x86_64
+    - aarch64
 health-checks:
   web-ui:
     name: Web UI

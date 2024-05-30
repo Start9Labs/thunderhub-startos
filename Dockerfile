@@ -1,8 +1,3 @@
-FROM golang:1.18-alpine3.15 as yqbuild
-ENV GO111MODULE=on
-RUN apk add git
-RUN go install github.com/mikefarah/yq/v4@v4.24.5
-
 # ---------------
 # Install Dependencies
 # ---------------
@@ -47,7 +42,8 @@ RUN npm prune --production
 # ---------------
 FROM node:18.18.2-alpine as final
 
-RUN apk add --update --no-cache bash coreutils curl
+RUN apk add --update --no-cache bash coreutils curl yq; \
+    rm -f /var/cache/apk/*
 
 WORKDIR /app
 
@@ -74,5 +70,4 @@ EXPOSE 3000
 # CMD [ "npm", "run", "start:prod" ]
 
 COPY ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-COPY --from=yqbuild /go/bin/yq /usr/bin/yq
 ENTRYPOINT ["/usr/local/bin/docker_entrypoint.sh"]
