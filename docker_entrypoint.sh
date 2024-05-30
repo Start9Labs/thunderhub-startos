@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 export HOST_IP=$(ip -4 route list match 0/0 | awk '{print $3}')
 
 echo 'version: 2' > /root/start9/stats.yaml
