@@ -2,10 +2,10 @@
   <img src="icon.png" alt="Project Logo" width="21%">
 </p>
 
-# Thunderhub for StartOS
+# ThunderHub for StartOS
 
-[Thunderhub](https://github.com/apotdevin/thunderhub) is an open-source LND node manager where you can manage and monitor your node on any device or browser. It allows you to take control of the lightning network with a simple and intuitive UX and the most up-to-date tech stack. This repository creates the `s9pk` package that is
-installed to run `Thunderhub` on [StartOS](https://github.com/Start9Labs/start-os/).
+[ThunderHub](https://github.com/apotdevin/thunderhub) is an open-source LND node manager where you can manage and monitor your node on any device or browser. It allows you to take control of the lightning network with a simple and intuitive UX and the most up-to-date tech stack. This repository creates the `s9pk` package that is
+installed to run `ThunderHub` on [StartOS](https://github.com/Start9Labs/start-os/).
 
 ## Dependencies
 
@@ -20,7 +20,7 @@ Prior to building the `thunderhub` package, it's essential to configure your bui
 
 ## Cloning
 
-Clone the Thunderhub package repository locally.
+Clone the ThunderHub package repository locally.
 
 ```
 git clone git@github.com:Start9Labs/thunderhub-startos.git
@@ -29,7 +29,7 @@ cd thunderhub-startos
 
 ## Building
 
-To build the **Thunderhub** service as a universal package, run the following command:
+To build the **ThunderHub** service as a universal package, run the following command:
 
 ```
 make
@@ -63,6 +63,6 @@ make install
 
 ## Verify Install
 
-Go to your StartOS Services page, select **Thunderhub**, configure and start the service.
+Go to your StartOS Services page, select **ThunderHub**, configure and start the service.
 
 **Done!**
