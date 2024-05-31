@@ -38,7 +38,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
               "id": "type",
               "name": "Type",
               "description":
-                "- Internal: The LND service installed to your Embassy\n- External: An LND node running on a different device\n- LNDConnect: An LNDConnect URL\n",
+                "- <b>Internal</b>: The LND service installed on StartOS<br>- <b>External</b>: An LND node running on a different device<br>- <b>LNDConnect</b>: An LNDConnect URL",
               "variant-names": {
                 "internal": "Internal",
                 "external": "External Manual",
@@ -109,7 +109,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
       },
       "default": [
         {
-          "name": "Embassy LND",
+          "name": "StartOS LND",
           "connection-settings": {
             "type": "internal",
             "address": null,

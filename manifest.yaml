@@ -2,16 +2,19 @@ id: thunderhub
 title: Thunderhub
 version: 0.13.31
 release-notes: |
-  * v0.13.30 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.30)
-  * chore: extra error log @apotdevin (#601)
-  * fix: Boltz swap claim transaction fees @michael1011 (#600)
-  * fix: add safety on object lookups @atomantic (#599)
-  * v0.13.31 [Release Notes](https://github.com/apotdevin/thunderhub/releases/tag/v0.13.31)
-  * feat: Taproot swaps @michael1011 (#611)
-  * chore: show ghost error to user @bufo24 (#610)
-  * chore: update package lock @apotdevin
-  * chore: remove swap backup @apotdevin
-  * fix: bump dep, don't work with Node.js ^21.0.0 fix #580 @doitwithnotepad (#612)
+  * Upstream code update
+  * New, optimized, and standardized icon
+  * Minor updates to instructions and messages
+  * Prolonged health check time
+  * Cleaned and optimized package build
+
+  > `Highlights and Improvements`
+  * Added Taproot swaps
+  * Fixed error message issue
+  * Removed swap backup
+  * Display ghost error to user
+  * Fixed Boltz swap claim transaction fees
+  * Full list of upstream changes available [here](https://github.com/apotdevin/thunderhub/compare/v0.13.29...v0.13.31)
 license: MIT
 wrapper-repo: https://github.com/Start9Labs/thunderhub-startos
 upstream-repo: https://github.com/apotdevin/thunderhub
