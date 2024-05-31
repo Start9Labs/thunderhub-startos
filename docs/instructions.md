@@ -5,8 +5,7 @@
 The Master Password setting will be the password you use to log into all the accounts you set up for ThunderHub.
 If you set an account-specific password, that will override the master password for that account.
 
-ThunderHub's configuration will automatically load the settings for the LND node running on your StartOS server. However, it can also connect 
-to an external LND node either via manual configuration or an [LNDConnect](https://github.com/LN-Zap/lndconnect/blob/master/lnd_connect_uri.md) URL.
+ThunderHub's configuration will automatically load the settings for the LND node running on your StartOS server. However, it can also connect to an external LND node either via manual configuration or an [LNDConnect](https://github.com/LN-Zap/lndconnect/blob/master/lnd_connect_uri.md) URL.
 
 ## Limitations
 
