@@ -1,6 +1,8 @@
-.DS_Store
 *.s9pk
-scripts/embassy.js
-scripts/generated/*
-.vscode
+startos/*.js
+node_modules/
+.DS_Store
+.vscode/
 docker-images
+javascript
+ncc-cache
