@@ -2,6 +2,7 @@
 
 ## Documentation
 
+- [Start9 Bitcoin Guides](https://docs.start9.com/bitcoin-guides/) — connecting wallets and dashboards to a Lightning node on StartOS.
 - [ThunderHub upstream README](https://github.com/apotdevin/thunderhub#readme) — the project README, covering features and general usage of ThunderHub.
 
 ## What you get on StartOS
