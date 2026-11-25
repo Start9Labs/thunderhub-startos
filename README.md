@@ -12,7 +12,7 @@
 [ThunderHub](https://github.com/apotdevin/thunderhub) is a web dashboard for an LND node: channels, payments, forwards, fees, and the tools to manage them. This package runs it against the LND on the same server, with the node account configured for you.
 
 - **Upstream repo:** <https://github.com/apotdevin/thunderhub>
-- **Wrapper repo:** <https://github.com/Start9-Community/thunderhub-startos>
+- **Wrapper repo:** <https://github.com/Start9Labs/thunderhub-startos>
 
 ---
 
